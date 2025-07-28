@@ -9,25 +9,28 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late GoogleMapController _mapController;
+  GoogleMapController? _mapController;
 
-  final LatLng _initialPosition = const LatLng(
-    -1.2101,
-    36.8962,
-  ); // Example: Kahawa West
+  final LatLng _initialPosition = const LatLng(-1.2101, 36.8962); // Kahawa West
 
-  final List<Marker> _markers = [
+  final Set<Marker> _markers = {
     Marker(
       markerId: MarkerId('clinic1'),
-      position: LatLng(-1.2101, 36.8962), // Kahawa West
+      position: LatLng(-1.2101, 36.8962),
       infoWindow: InfoWindow(title: 'Hope Medical Center'),
     ),
     Marker(
       markerId: MarkerId('clinic2'),
-      position: LatLng(-1.2022, 36.9034), // Githurai 45
+      position: LatLng(-1.2022, 36.9034),
       infoWindow: InfoWindow(title: 'Sunrise Clinic'),
     ),
-  ];
+  };
+
+  @override
+  void dispose() {
+    _mapController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class _MapScreenState extends State<MapScreen> {
         onMapCreated: (controller) {
           _mapController = controller;
         },
-        markers: Set.from(_markers),
+        markers: _markers,
       ),
     );
   }
