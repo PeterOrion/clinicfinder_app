@@ -1,20 +1,25 @@
+// lib/models/clinic.dart
+
 class Clinic {
   final String name;
-  final String location;
-  final String contact;
+  final String address;
+  final String price;
+  final double rating;
 
   Clinic({
     required this.name,
-    required this.location,
-    required this.contact,
+    required this.address,
+    required this.price,
+    required this.rating,
   });
 
+  // Optional: Add factory constructor if you'll use JSON data later
   factory Clinic.fromJson(Map<String, dynamic> json) {
     return Clinic(
-      name: json['name'],
-      location: json['location'],
-      contact: json['contact'],
+      name: json['name'] ?? '',
+      address: json['address'] ?? '',
+      price: json['price'] ?? '',
+      rating: (json['rating'] ?? 0).toDouble(),
     );
   }
 }
-
