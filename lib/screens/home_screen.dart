@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/clinic.dart';
 import '../widgets/clinic_card.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,36 +12,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Clinic> allClinics = [
-    Clinic(
-      name: 'Hope Medical Center',
-      address: 'Kahawa West, Nairobi',
-      price: 'Free',
-      rating: 4.5,
-    ),
-    Clinic(
-      name: 'Sunrise Clinic',
-      address: 'Githurai 45',
-      price: 'KES 500',
-      rating: 4.0,
-    ),
-    Clinic(
-      name: 'Healing Hands Hospital',
-      address: 'Zimmerman',
-      price: 'KES 800',
-      rating: 3.8,
-    ),
-    Clinic(
-      name: 'Primecare Nairobi',
-      address: 'Thika Road',
-      price: 'KES 1500',
-      rating: 4.2,
-    ),
-  ];
-
+  List<Clinic> allClinics = [];
   String selectedFilter = 'All';
   String searchQuery = '';
   final List<String> filters = ['All', 'Free', 'Affordable'];
+
+  @override
+  void initState() {
+    super.initState();
+    loadClinics();
+  }
+
+  Future<void> loadClinics() async {
+    final String response = await rootBundle.loadString('assets/clinics.json');
+    final List<dynamic> data = json.decode(response);
+    setState(() {
+      allClinics = data.map((clinic) => Clinic.fromJson(clinic)).toList();
+    });
+  }
 
   List<Clinic> get filteredClinics {
     List<Clinic> filtered = List.from(allClinics);
@@ -67,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Clinic Finder')),
-
       body: Column(
         children: [
           // 🔍 Search Bar
