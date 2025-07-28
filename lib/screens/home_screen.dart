@@ -3,12 +3,13 @@ import '../models/clinic.dart';
 import '../widgets/clinic_card.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Sample hardcoded clinics
   final List<Clinic> allClinics = [
     Clinic(
       name: 'Hope Medical Center',
@@ -40,30 +41,22 @@ class _HomeScreenState extends State<HomeScreen> {
   String searchQuery = '';
   final List<String> filters = ['All', 'Free', 'Affordable'];
 
-  // Filtering logic
   List<Clinic> get filteredClinics {
     List<Clinic> filtered = List.from(allClinics);
 
-    // Price filter
     if (selectedFilter == 'Free') {
-      filtered = filtered
-          .where((c) => c.price.toLowerCase() == 'free')
-          .toList();
+      filtered = filtered.where((c) => c.price.toLowerCase() == 'free').toList();
     } else if (selectedFilter == 'Affordable') {
       filtered = filtered.where((c) {
         if (c.price.toLowerCase() == 'free') return true;
-        final amount =
-            int.tryParse(c.price.replaceAll(RegExp(r'[^\d]'), '')) ?? 9999;
+        final amount = int.tryParse(c.price.replaceAll(RegExp(r'[^\d]'), '')) ?? 9999;
         return amount <= 1000;
       }).toList();
     }
 
-    // Search filter
     if (searchQuery.isNotEmpty) {
       filtered = filtered
-          .where(
-            (c) => c.name.toLowerCase().contains(searchQuery.toLowerCase()),
-          )
+          .where((c) => c.name.toLowerCase().contains(searchQuery.toLowerCase()))
           .toList();
     }
 
@@ -126,15 +119,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // 📋 Clinic List
+          const SizedBox(height: 8),
+
+          // 📋 Clinic List or Empty Message
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: filteredClinics.length,
-              itemBuilder: (context, index) {
-                return ClinicCard(clinic: filteredClinics[index]);
-              },
-            ),
+            child: filteredClinics.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No clinics found.',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: filteredClinics.length,
+                    itemBuilder: (context, index) {
+                      return ClinicCard(clinic: filteredClinics[index]);
+                    },
+                  ),
           ),
         ],
       ),
@@ -144,8 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.pushNamed(context, '/map');
         },
-        child: const Icon(Icons.map),
         tooltip: 'View on Map',
+        child: const Icon(Icons.map),
       ),
     );
   }
