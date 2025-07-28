@@ -3,24 +3,32 @@
     "name": "Hope Medical Center",
     "address": "Kahawa West, Nairobi",
     "price": "Free",
-    "rating": 4.5
+    "rating": 4.5,
+    "latitude": -1.2075,
+    "longitude": 36.9021
   },
   {
     "name": "Sunrise Clinic",
     "address": "Githurai 45",
     "price": "KES 500",
-    "rating": 4.0
+    "rating": 4.0,
+    "latitude": -1.2113,
+    "longitude": 36.9045
   },
   {
     "name": "Healing Hands Hospital",
     "address": "Zimmerman",
     "price": "KES 800",
-    "rating": 3.8
+    "rating": 3.8,
+    "latitude": -1.2198,
+    "longitude": 36.8877
   },
   {
     "name": "Primecare Nairobi",
     "address": "Thika Road",
     "price": "KES 1500",
-    "rating": 4.2
+    "rating": 4.2,
+    "latitude": -1.2190,
+    "longitude": 36.9102
   }
 ]
