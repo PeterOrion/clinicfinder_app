@@ -40,11 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   String searchQuery = '';
   final List<String> filters = ['All', 'Free', 'Affordable'];
 
-  // Filter logic
+  // Filtering logic
   List<Clinic> get filteredClinics {
     List<Clinic> filtered = List.from(allClinics);
 
-    // Filter by price
+    // Price filter
     if (selectedFilter == 'Free') {
       filtered = filtered
           .where((c) => c.price.toLowerCase() == 'free')
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }).toList();
     }
 
-    // Filter by search
+    // Search filter
     if (searchQuery.isNotEmpty) {
       filtered = filtered
           .where(
@@ -70,18 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return filtered;
   }
 
-floatingActionButton: FloatingActionButton(
-  onPressed: () {
-    Navigator.pushNamed(context, '/map');
-  },
-  child: Icon(Icons.map),
-  tooltip: 'View on Map',
-),
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Clinic Finder')),
+
       body: Column(
         children: [
           // 🔍 Search Bar
@@ -144,6 +137,15 @@ floatingActionButton: FloatingActionButton(
             ),
           ),
         ],
+      ),
+
+      // 🗺️ Floating Map Button
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/map');
+        },
+        child: const Icon(Icons.map),
+        tooltip: 'View on Map',
       ),
     );
   }
