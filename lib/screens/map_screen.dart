@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import '../models/clinic.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -10,21 +13,31 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   GoogleMapController? _mapController;
-
   final LatLng _initialPosition = const LatLng(-1.2101, 36.8962); // Kahawa West
+  final Set<Marker> _markers = {};
 
-  final Set<Marker> _markers = {
-    Marker(
-      markerId: MarkerId('clinic1'),
-      position: LatLng(-1.2101, 36.8962),
-      infoWindow: InfoWindow(title: 'Hope Medical Center'),
-    ),
-    Marker(
-      markerId: MarkerId('clinic2'),
-      position: LatLng(-1.2022, 36.9034),
-      infoWindow: InfoWindow(title: 'Sunrise Clinic'),
-    ),
-  };
+  @override
+  void initState() {
+    super.initState();
+    loadClinicMarkers();
+  }
+
+  Future<void> loadClinicMarkers() async {
+    final String jsonString = await rootBundle.loadString('assets/clinics.json');
+    final List<dynamic> data = json.decode(jsonString);
+
+    final clinics = data.map((clinic) => Clinic.fromJson(clinic)).toList();
+
+    setState(() {
+      _markers.addAll(clinics.map((clinic) {
+        return Marker(
+          markerId: MarkerId(clinic.name),
+          position: LatLng(clinic.latitude, clinic.longitude),
+          infoWindow: InfoWindow(title: clinic.name),
+        );
+      }));
+    });
+  }
 
   @override
   void dispose() {
