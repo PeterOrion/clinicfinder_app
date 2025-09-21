@@ -13,16 +13,17 @@ class ClinicFinderApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Clinic Finder',
-      debugShowCheckedModeBanner: false, // 🚫 Hides debug banner
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomeScreen(),
-        '/map': (context) => MapScreen(),
+        '/': (context) => const HomeScreen(),
+        '/map': (context) => const MapScreen(),
       },
     );
   }
