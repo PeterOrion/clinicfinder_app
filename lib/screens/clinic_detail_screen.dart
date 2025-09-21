@@ -5,7 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class ClinicDetailScreen extends StatelessWidget {
   final Clinic clinic;
 
-  const ClinicDetailScreen({required this.clinic});
+  const ClinicDetailScreen({super.key, required this.clinic});
 
   @override
   Widget build(BuildContext context) {
@@ -18,32 +18,54 @@ class ClinicDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(clinic.name,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Text(clinic.address, style: TextStyle(fontSize: 16)),
-            SizedBox(height: 10),
+            // 🏥 Clinic Name
+            Text(
+              clinic.name,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+
+            // 📍 Address
+            Text(
+              clinic.address,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 10),
+
+            // ⭐ Rating
             Row(
               children: [
                 RatingBarIndicator(
                   rating: clinic.rating,
                   itemCount: 5,
                   itemSize: 24,
-                  itemBuilder: (_, __) => Icon(Icons.star, color: Colors.amber),
+                  itemBuilder: (_, __) =>
+                      const Icon(Icons.star, color: Colors.amber),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text('${clinic.rating} stars'),
               ],
             ),
-            SizedBox(height: 10),
-            Text('Cost: ${clinic.price}',
-                style: TextStyle(fontSize: 16, color: Colors.green)),
-            SizedBox(height: 30),
-            Divider(),
-            Text("Opening Hours: 8:00 AM - 5:00 PM",
-                style: TextStyle(color: Colors.grey[700])),
-            Text("Contact: 0700 000 000",
-                style: TextStyle(color: Colors.grey[700])),
+            const SizedBox(height: 10),
+
+            // 💵 Price
+            Text(
+              'Cost: ${clinic.price}',
+              style: const TextStyle(fontSize: 16, color: Colors.green),
+            ),
+            const SizedBox(height: 30),
+
+            const Divider(),
+
+            // ℹ️ Extra Info (static for now, but you can expand later)
+            Text(
+              "Opening Hours: 8:00 AM - 5:00 PM",
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+            Text(
+              "Contact: 0700 000 000",
+              style: TextStyle(color: Colors.grey[700]),
+            ),
           ],
         ),
       ),
