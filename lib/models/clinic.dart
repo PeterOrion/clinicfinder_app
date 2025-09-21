@@ -17,7 +17,6 @@ class Clinic {
     required this.longitude,
   });
 
-  // Factory constructor to create a Clinic from JSON
   factory Clinic.fromJson(Map<String, dynamic> json) {
     return Clinic(
       name: json['name'] ?? '',
