@@ -17,12 +17,12 @@ class Clinic {
 
   factory Clinic.fromJson(Map<String, dynamic> json) {
     return Clinic(
-      name: json['name'],
-      address: json['address'],
-      price: json['price'],
-      rating: (json['rating'] as num).toDouble(),
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
+      name: json['name'] ?? '',
+      address: json['address'] ?? '',
+      price: json['price'] ?? '',
+      rating: (json['rating'] ?? 0).toDouble(),
+      latitude: (json['latitude'] ?? 0).toDouble(),
+      longitude: (json['longitude'] ?? 0).toDouble(),
     );
   }
 }
