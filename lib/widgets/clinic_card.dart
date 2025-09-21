@@ -1,8 +1,6 @@
 // lib/widgets/clinic_card.dart
-
 import 'package:flutter/material.dart';
 import '../models/clinic.dart';
-import '../screens/clinic_detail_screen.dart';
 
 class ClinicCard extends StatelessWidget {
   final Clinic clinic;
@@ -20,12 +18,11 @@ class ClinicCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(15),
         onTap: () {
-          // ✅ Navigate to detail screen instead of map
-          Navigator.push(
+          // ✅ Navigate to ClinicDetailScreen instead of Map
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => ClinicDetailScreen(clinic: clinic),
-            ),
+            '/detail',
+            arguments: clinic,
           );
         },
         child: Padding(
