@@ -1,6 +1,9 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/map_screen.dart';
+import 'screens/clinic_detail_screen.dart';
+import 'models/clinic.dart';
 
 void main() {
   runApp(const ClinicFinderApp());
@@ -24,6 +27,16 @@ class ClinicFinderApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/map': (context) => const MapScreen(),
+      },
+      // Handle dynamic routes like ClinicDetailScreen with arguments
+      onGenerateRoute: (settings) {
+        if (settings.name == '/detail') {
+          final clinic = settings.arguments as Clinic;
+          return MaterialPageRoute(
+            builder: (context) => ClinicDetailScreen(clinic: clinic),
+          );
+        }
+        return null;
       },
     );
   }
