@@ -8,7 +8,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -24,11 +24,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> loadClinics() async {
-    final String response = await rootBundle.loadString('assets/clinics.json');
-    final List<dynamic> data = json.decode(response);
-    setState(() {
-      allClinics = data.map((clinic) => Clinic.fromJson(clinic)).toList();
-    });
+    try {
+      final String response = await rootBundle.loadString('assets/clinics.json');
+      final List<dynamic> data = json.decode(response);
+
+      setState(() {
+        allClinics = data.map((clinic) => Clinic.fromJson(clinic)).toList();
+      });
+    } catch (e) {
+      debugPrint('Error loading clinics: $e');
+    }
   }
 
   List<Clinic> get filteredClinics {
@@ -123,7 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(16),
                     itemCount: filteredClinics.length,
                     itemBuilder: (context, index) {
-                      return ClinicCard(clinic: filteredClinics[index]);
+                      return ClinicCard(
+                        key: ValueKey(filteredClinics[index].name),
+                        clinic: filteredClinics[index],
+                      );
                     },
                   ),
           ),
@@ -133,7 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
       // 🗺️ Floating Map Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/map');
+          Navigator.pushNamed(
+            context,
+            '/map',
+            arguments: filteredClinics,
+          );
         },
         tooltip: 'View on Map',
         child: const Icon(Icons.map),
