@@ -3,7 +3,7 @@
 class Clinic {
   final String name;
   final String address;
-  final String price; // keep as String if you display "Free" or "$50"
+  final String price;
   final double rating;
   final double latitude;
   final double longitude;
@@ -17,7 +17,7 @@ class Clinic {
     required this.longitude,
   });
 
-  // Convert from JSON
+  // Factory constructor to create a Clinic from JSON
   factory Clinic.fromJson(Map<String, dynamic> json) {
     return Clinic(
       name: json['name'] ?? '',
@@ -27,17 +27,5 @@ class Clinic {
       latitude: (json['latitude'] ?? 0).toDouble(),
       longitude: (json['longitude'] ?? 0).toDouble(),
     );
-  }
-
-  // Optional: Convert to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'address': address,
-      'price': price,
-      'rating': rating,
-      'latitude': latitude,
-      'longitude': longitude,
-    };
   }
 }
